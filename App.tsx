@@ -7,15 +7,26 @@
 
 import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import Colors from './src/Contants/Color';
+import LoginScreen from './src/Screens/LoginScreen';
+import AppNavigator from './src/Navigation/AppNavigator';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  // const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    // <AppNavigator />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AppNavigator />
+    </GestureHandlerRootView>
+    // <View style={styles.container}>
+    //   {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
+    //   <StatusBar barStyle={  'light-content'} backgroundColor={Colors.purple_500} />
+    //   {/* <NewAppScreen templateFileName="App.tsx" /> */}
+    //   <LoginScreen  />
+      
+    // </View>
   );
 }
 
