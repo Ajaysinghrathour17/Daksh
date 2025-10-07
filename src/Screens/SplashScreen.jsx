@@ -73,17 +73,17 @@
 import React, { useEffect } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { logo_splash_daksh } from '../Assets'; // Ensure this path is correct
-import Colors from '../Contants/Color';
+import Colors from '../Constants/Color';
 
-const SplashScreen = ({ navigation }) => {
-  // Navigate to Login immediately after render (or after a tiny delay if needed)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.replace('Login');
-    }, 2000); // 100ms delay for UI to render — optional, can be 0
+const SplashScreen = () => {
+  // // Navigate to Login immediately after render (or after a tiny delay if needed)
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     navigation.replace('Login');
+  //   }, 200); // 100ms delay for UI to render — optional, can be 0
 
-    return () => clearTimeout(timer);
-  }, [navigation]);
+  //   return () => clearTimeout(timer);
+  // }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -101,7 +101,7 @@ const SplashScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.purple_700, // Or use '#F87134' if you want orange
+    backgroundColor: Colors.bg_safron, // Or use '#F87134' if you want orange
     justifyContent: 'center',
     alignItems: 'center',
   },

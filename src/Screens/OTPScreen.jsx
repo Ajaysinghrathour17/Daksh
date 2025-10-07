@@ -241,7 +241,7 @@ import {
 import { background_enter_otp } from '../Assets/index.js';
 
 const OTPScreen = ({ navigation, route }) => {
-  const { mobile } = route.params || {}; // Get mobile from Login screen
+  const { mobile, user, token } = route.params || {}; // Get mobile from Login screen
 
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timeLeft, setTimeLeft] = useState(30); // 30 seconds
@@ -315,7 +315,7 @@ const OTPScreen = ({ navigation, route }) => {
     setTimeout(() => {
       Alert.alert('Success', 'OTP Verified! Redirecting...');
       navigation.replace('Dashboard');
-    }, 1000);
+    });
   };
 
   // Handle resend OTP
@@ -324,7 +324,7 @@ const OTPScreen = ({ navigation, route }) => {
     setIsResendEnabled(false);
     setOtp(['', '', '', '']); // Clear OTP fields
     inputs.current[0]?.focus(); // Focus first input
-    Alert.alert('OTP Resent', `New OTP sent to +91 ${mobile}`);
+    // Alert.alert('OTP Resent', `New OTP sent to +91 ${mobile}`);
   };
 
   const formatTime = (seconds) => {
@@ -347,8 +347,10 @@ const OTPScreen = ({ navigation, route }) => {
         <Text style={styles.title}>ओ.टी.पी. डाले</Text>
         <Text style={styles.subtitle}>
           आपके मोबाइल नंबर पर प्राप्त 4 अंको का ओ.टी.पी. डाले
+                  <Text >मोबाइल नंबर {mobile}</Text>
+
         </Text>
-        <Text style={styles.mobileText}>मोबाइल नंबर {mobile}</Text>
+        {/* <Text style={styles.mobileText}>मोबाइल नंबर {mobile}</Text> */}
 
         {/* OTP Input Boxes */}
         <View style={styles.otpContainer}>
@@ -408,7 +410,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 30,
-    marginTop: 50,
+    marginTop: 100,
     marginBottom: 100,
   },
   title: {

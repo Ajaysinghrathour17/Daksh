@@ -1,141 +1,213 @@
 // src/navigation/DrawerNavigator.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { logo_dashboard_daksh } from '../Assets';
+import { Image, View, Text, TouchableOpacity, StyleSheet, ActivityIndicator , Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+    logo_dashboard_daksh, samajik_samarsata,
+    department_icon,
+    permission,
+    change,
+    logout, institution, add, person, scanner
+} from '../Assets';
 
 import ProfileScreen from '../Screens/ProfileScreen.jsx';
-import AddOrgScreen from '../Screens/AddOrgScreen.jsx';
-import PermissionScreen from '../Screens/PermissionScreen.jsx';
-import ChangePasswordScreen from '../Screens/ChangePasswordScreen.jsx';
-import CreateGroupScreen from '../Screens/CreateGroupScreen.jsx';
-import CreateBankScreen from '../Screens/CreateBankScreen.jsx';
-import BankReportScreen from '../Screens/BankReportScreen.jsx';
-import LogoutScreen from '../Screens/LogoutScreen.jsx';
+import Dashboard from '../Screens/Dashboard.jsx';
+import Colors from '../Constants/Color.js';
+import SamparkVyaktiTable from '../Screens/SamparkVyaktiTable.jsx';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = ({ navigation }) => {
-  return (
-    <Drawer.Navigator
-      drawerStyle={{
-        backgroundColor: '#fff',
-        width: 300,
-      }}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-    >
-      <Drawer.Screen name="Profile" component={ProfileScreen} />
-      <Drawer.Screen name="AddOrg" component={AddOrgScreen} />
-      <Drawer.Screen name="Permission" component={PermissionScreen} />
-      <Drawer.Screen name="ChangePassword" component={ChangePasswordScreen} />
-      <Drawer.Screen name="CreateGroup" component={CreateGroupScreen} />
-      <Drawer.Screen name="CreateBank" component={CreateBankScreen} />
-      <Drawer.Screen name="BankReport" component={BankReportScreen} />
-      <Drawer.Screen name="Logout" component={LogoutScreen} />
-    </Drawer.Navigator>
-  );
+    return (
+        <Drawer.Navigator
+            drawerStyle={{
+                backgroundColor: 'red',
+                width: 200,
+            }}
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
+            screenOptions={{ headerShown: false, }}
+        >
+            <Drawer.Screen name='Home' component={Dashboard} />
+            <Drawer.Screen name="Profile" component={ProfileScreen} />
+            <Drawer.Screen name="samparkList"  component={SamparkVyaktiTable}/>
+
+        </Drawer.Navigator>
+    );
 };
 
 // Custom Drawer Content (Menu Items)
 const CustomDrawerContent = (props) => {
-  const { navigation } = props;
+    const { navigation } = props;
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  const menuItems = [
-    { label: 'प्रोफाइल देखे', icon: 'user', screen: 'Profile' },
-    { label: 'सहयोगी संस्था जोड़ें', icon: 'building', screen: 'AddOrg' },
-    { label: 'अनुमति प्रदान करे', icon: 'key', screen: 'Permission' },
-    { label: 'परिवर्तन करे', icon: 'lock', screen: 'ChangePassword' },
-    { label: 'वर्ग बनाएं', icon: 'plus-square', screen: 'CreateGroup' },
-    { label: 'बैठक बनाएं', icon: 'plus-square', screen: 'CreateBank' },
-    { label: 'बैठक उपस्थिति दर्ज करे', icon: 'calendar', screen: 'BankReport' },
-    { label: 'लॉगआउट करें', icon: 'logout', screen: 'Logout' },
-  ];
+    useEffect(() => {
+        loadUserData();
+    }, []);
 
-  return (
-    <View style={styles.drawerContainer}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Image source={logo_dashboard_daksh} style={styles.logo} resizeMode="contain" />
-        <Text style={styles.headerText}>चेतन सैनी</Text>
-        <Text style={styles.headerSubText}>+91 9672224446</Text>
-      </View>
+    const loadUserData = async () => {
+        try {
+            const storedData = await AsyncStorage.getItem('userData');
+            const token = await AsyncStorage.getItem('token');
+            console.log(token);
 
-      {/* Menu Items */}
-      {menuItems.map((item, index) => (
-        <TouchableOpacity
-          key={index}
-          style={styles.menuItem}
-          onPress={() => {
-            navigation.closeDrawer();
-            navigation.navigate(item.screen);
-          }}
-        >
-          <Text style={styles.menuIcon}>{getIcon(item.icon)}</Text>
-          <Text style={styles.menuLabel}>{item.label}</Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
-};
+            if (storedData) {
+                const parsedData = JSON.parse(storedData);
+                setUserData(parsedData.user); // Get user object from stored data
+            }
+        } catch (error) {
+            console.error('Error loading user data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-// Simple Icon Mapping (you can replace with react-native-vector-icons later)
-const getIcon = (iconName) => {
-  const icons = {
-    user: '👤',
-    building: '🏛️',
-    key: '🔑',
-    lock: '🔒',
-    'plus-square': '+',
-    calendar: '📅',
-    logout: '🚪',
-  };
-  return icons[iconName] || '📦';
+    const handleLogout = async () => {
+        Alert.alert(
+            'लॉगआउट',
+            'क्या आप एप्लिकेशन से लॉगआउट करना चाहते हैं?',
+            [
+                {
+                    text: 'नहीं',
+                    style: 'cancel',
+                },
+                {
+                    text: 'हाँ',
+                    onPress: async () => {
+                        try {
+                            // Clear all user data from AsyncStorage
+                            await AsyncStorage.removeItem('userData');
+                            await AsyncStorage.removeItem('token');
+
+                            // Navigate to Login screen
+                            navigation.closeDrawer();
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Login' }],
+                            });
+                        } catch (error) {
+                            console.error('Error during logout:', error);
+                            Alert.alert('त्रुटि', 'लॉगआउट में त्रुटि हुई। कृपया पुनः प्रयास करें।');
+                        }
+                    },
+                },
+            ],
+            { cancelable: false }
+        );
+    };
+
+
+    const menuItems = [
+        { label: 'प्रोफाइल देखे', icon: permission, screen: 'Profile' },
+        { label: 'सहयोगी संस्था जोड़ें', icon: institution, screen: 'AddOrg' },
+        { label: 'अनुमति प्रदान करे', icon: permission, screen: 'Permission' },
+        { label: 'परिवर्तन करे', icon: change, screen: 'ChangePassword' },
+        { label: 'वर्ग बनाएं', icon: add, screen: 'CreateGroup' },
+        { label: 'बैठक बनाएं', icon: add, screen: 'CreateBank' },
+        { label: 'बैठक उपस्थिति दर्ज करे', icon: scanner, screen: 'BankReport' },
+        { label: 'लॉगआउट करें', icon: logout, screen: 'Logout', action: handleLogout },
+    ];
+
+    if (loading) {
+        return (
+            <View style={styles.drawerContainer}>
+                <View style={styles.header}>
+                    <ActivityIndicator size="large" color={Colors.bg_safron} />
+                    <Text style={styles.headerText}>लोड हो रहा है...</Text>
+                </View>
+            </View>
+        );
+    }
+
+    return (
+        <View style={styles.drawerContainer}>
+            {/* Header */}
+            <View style={styles.header}>
+                {/* <Image source={logo_dashboard_daksh} style={styles.logo} resizeMode="contain" /> */}
+                <Text style={styles.headerText}>{userData?.Name || 'User '}</Text>
+                <Text style={styles.headerSubText}>+91 {userData?.MobileNumber || '00000'}</Text>
+            </View>
+
+            <View style={styles.menuList}>
+                {/* Menu Items */}
+                {menuItems.map((item, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        style={styles.menuItem}
+                        onPress={() => {
+                            if(item.action) {
+                                item.action(); // Execute logout action
+                            } else {
+                                navigation.closeDrawer();
+                                navigation.navigate(item.screen);
+                            }
+                        }}
+                    >
+                        <Image
+                            source={item.icon}
+                            style={styles.menuIcon}
+                            resizeMode='contain'
+                        />
+                        <Text style={styles.menuLabel}>{item.label}</Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
-  drawerContainer: {
-    flex: 1,
-    paddingTop: 50,
-    backgroundColor: '#fff',
-  },
-  header: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    alignItems: 'center',
-  },
-  logo: {
-    width: 80,
-    height: 80,
-    marginBottom: 10,
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  headerSubText: {
-    fontSize: 16,
-    color: '#666',
-  },
-  menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  menuIcon: {
-    fontSize: 20,
-    marginRight: 15,
-    color: '#FF6B6B',
-  },
-  menuLabel: {
-    fontSize: 16,
-    color: '#333',
-  },
+    drawerContainer: {
+        flex: 1,
+        paddingTop: 40,
+        backgroundColor: Colors.bg_safron,
+    },
+    header: {
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        alignItems: 'center',
+        backgroundColor: Colors.bg_safron,
+        color: Colors.white
+    },
+    logo: {
+        width: 80,
+        height: 80,
+        marginBottom: 10,
+    },
+    headerText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: Colors.white,
+    },
+    headerSubText: {
+        fontSize: 16,
+        color: Colors.white,
+    },
+    menuList: {
+        backgroundColor: Colors.white,
+        flex: 1,
+    },
+    menuItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 15,
+        paddingHorizontal: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+    },
+    menuIcon: {
+        marginRight: 15,
+        color: Colors.bg_safron,
+        height: 22,
+        width: 22,
+    },
+    menuLabel: {
+        fontSize: 16,
+        color: '#333',
+    },
 });
 
 export default DrawerNavigator;

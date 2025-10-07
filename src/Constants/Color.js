@@ -2,6 +2,7 @@ const Colors = {
   purple_200: '#F26B35',
   purple_500: '#F26B35',
   purple_700: '#F26B35',
+  bg_safron: '#F26B35',
   light_purple_500: '#F2946D',
   teal_200: '#FF03DAC5',
   teal_700: '#FF018786',
