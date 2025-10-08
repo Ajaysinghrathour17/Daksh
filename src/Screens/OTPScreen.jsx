@@ -239,6 +239,7 @@ import {
   Alert,
 } from 'react-native';
 import { background_enter_otp } from '../Assets/index.js';
+import { showSuccessToast } from '../utils/ToastUtil.js';
 
 const OTPScreen = ({ navigation, route }) => {
   const { mobile, user, token } = route.params || {}; // Get mobile from Login screen
@@ -313,7 +314,8 @@ const OTPScreen = ({ navigation, route }) => {
 
     // Simulate success after 1 second
     setTimeout(() => {
-      Alert.alert('Success', 'OTP Verified! Redirecting...');
+      // Alert.alert('Success', 'OTP Verified! Redirecting...');
+      showSuccessToast('लॉगिन सफल रहा है...');
       navigation.replace('Dashboard');
     });
   };
@@ -347,7 +349,7 @@ const OTPScreen = ({ navigation, route }) => {
         <Text style={styles.title}>ओ.टी.पी. डाले</Text>
         <Text style={styles.subtitle}>
           आपके मोबाइल नंबर पर प्राप्त 4 अंको का ओ.टी.पी. डाले
-                  <Text >मोबाइल नंबर {mobile}</Text>
+            <Text >मोबाइल नंबर {mobile}</Text>
 
         </Text>
         {/* <Text style={styles.mobileText}>मोबाइल नंबर {mobile}</Text> */}

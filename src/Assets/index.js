@@ -16,8 +16,8 @@ import person from "./drawable/man_icon.png"
 import scanner from './drawable/scanner.png'
 import sampark_icon from './drawable/sampark_icon.png'
 import sampark_divas_icon from './drawable/sampark_divas_icon.png'
-// import scanner from './drawable/scanner.png'
-// import scanner from './drawable/scanner.png'
+import setting from './drawable/setting.png'
+import square from './drawable/square.png'
 // import scanner from './drawable/scanner.png'
 
 // src/Assets/drawable/department_icon.png
@@ -34,5 +34,7 @@ hundred,
     department_icon,
     permission,
     change,
-    logout,institution , add, person, scanner, sampark_icon, sampark_divas_icon
+    logout,institution , add, person, scanner, sampark_icon, sampark_divas_icon,
+    setting, 
+    square, 
 }

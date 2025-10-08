@@ -16,7 +16,7 @@ import Colors from '../Constants/Color.js';
 import { showInfoToast, showErrorToast, showSuccessToast } from '../utils/ToastUtil.js';
 
 const LoginScreen = ({ navigation }) => {
-  const [mobile, setMobile] = useState('');
+  const [mobile, setMobile] = useState('967222444');  //9672224446
   const [loading, setLoading] = useState(false);
 
   const handleSendOTP = async () => {
@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }) => {
           'Authorization': `Bearer ${tokenData.access_token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({}) // Empty body for POST
+        body: JSON.stringify({})
       });
 
       if (!userResponse.ok) {

@@ -94,7 +94,7 @@ const ToastProvider = ({ children }) => {
 const styles = StyleSheet.create({
   toastContainer: {
     position: 'absolute',
-    top: "60",
+    top: "30%",
     left: 20,
     right: 20,
     borderRadius: 25,
