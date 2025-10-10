@@ -24,14 +24,14 @@ const AppNavigator = () => {
   const checkUserData = async () => {
     try {
       const userData = await AsyncStorage.getItem('userData');
-        console.log(userData)
+        // console.log(userData)
         // console.log(userData.length)
         console.log("intial route", initialRoute);
         
 
       if (userData) {
         // User data exists, go to Dashboard
-        setInitialRoute('Dashboard');
+      setInitialRoute('Dashboard');
       console.log("intial route change dash", initialRoute);
       } else {
         // No user data, go to Login

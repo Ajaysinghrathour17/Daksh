@@ -86,7 +86,7 @@ const LoginScreen = ({ navigation }) => {
       console.log('User data stored in AsyncStorage:', userDataToStore);
 
       // Show success toast
-      showSuccessToast('लॉगिन सफल! OTP सेंड किया जा रहा है...');
+      // showSuccessToast('लॉगिन सफल! OTP सेंड किया जा रहा है...');
 
       // Navigate to OTP screen with user data
       navigation.navigate('OTPVerification', {

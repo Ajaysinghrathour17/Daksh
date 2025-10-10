@@ -50,7 +50,7 @@ const CustomDrawerContent = (props) => {
         try {
             const storedData = await AsyncStorage.getItem('userData');
             const token = await AsyncStorage.getItem('token');
-            console.log(token);
+            // console.log(token);
 
             if (storedData) {
                 const parsedData = JSON.parse(storedData);

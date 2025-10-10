@@ -19,16 +19,16 @@ function App() {
   return (
     // <AppNavigator />
     // <GestureHandlerRootView style={{ flex: 1 }}>
-          <ToastProvider > 
+    <ToastProvider >
       <AppNavigator />
-  </ToastProvider>
+    </ToastProvider>
     // </GestureHandlerRootView>
     // <View style={styles.container}>
     //   {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
     //   <StatusBar barStyle={  'light-content'} backgroundColor={Colors.purple_500} />
     //   {/* <NewAppScreen templateFileName="App.tsx" /> */}
     //   <LoginScreen  />
-      
+
     // </View>
   );
 }

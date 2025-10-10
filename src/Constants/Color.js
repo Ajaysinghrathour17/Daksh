@@ -6,7 +6,7 @@ const Colors = {
   light_purple_500: '#F2946D',
   teal_200: '#FF03DAC5',
   teal_700: '#FF018786',
-  black: '#FF000000',
+  black: 'rgba(10, 9, 9, 0)',
   black2: '#7C7B7B',
   white: '#FFFFFFFF',
   statusbarColor: '#053d05',
