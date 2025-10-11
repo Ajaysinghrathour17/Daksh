@@ -14,7 +14,7 @@ import DrawerNavigator from './DrawerNavigator.js';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
-  const [initialRoute, setInitialRoute] = useState(''); // Default to Splash
+  const [initialRoute, setInitialRoute] = useState(''); 
   const [isChecking, setIsChecking] = useState(true);
    
   useEffect(() => {
@@ -26,17 +26,17 @@ const AppNavigator = () => {
       const userData = await AsyncStorage.getItem('userData');
         // console.log(userData)
         // console.log(userData.length)
-        console.log("intial route", initialRoute);
+        // console.log("intial route", initialRoute);
         
 
       if (userData) {
         // User data exists, go to Dashboard
       setInitialRoute('Dashboard');
-      console.log("intial route change dash", initialRoute);
+      // console.log("intial route change dash", initialRoute);
       } else {
         // No user data, go to Login
         setInitialRoute('Login');
-        console.log("intial route change Login", initialRoute);
+        // console.log("intial route change Login", initialRoute);
       }
     } catch (error) {
       console.error('Error checking user data:', error);
@@ -68,7 +68,7 @@ const AppNavigator = () => {
         
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="OTPVerification" component={OTPScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
+        {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
         
         {/* Wrap Dashboard with DrawerNavigator */}
         <Stack.Screen

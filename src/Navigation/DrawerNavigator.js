@@ -29,7 +29,7 @@ const DrawerNavigator = ({ navigation }) => {
             screenOptions={{ headerShown: false, }}
         >
             <Drawer.Screen name='Home' component={Dashboard} />
-            <Drawer.Screen name="Profile" component={ProfileScreen} />
+            {/* <Drawer.Screen name="Profile" component={ProfileScreen} /> */}
             <Drawer.Screen name="samparkList"  component={SamparkVyaktiTable}/>
 
         </Drawer.Navigator>

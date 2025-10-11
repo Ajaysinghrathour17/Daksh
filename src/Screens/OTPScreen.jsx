@@ -1,233 +1,3 @@
-// src/screens/OTPScreen.js
-// import React, { useState, useEffect, useRef } from 'react';
-// import {
-//   View,
-//   Text,
-//   TextInput,
-//   TouchableOpacity,
-//   Image,
-//   StyleSheet,
-//   Alert,
-// } from 'react-native';
-// import { background_enter_otp } from '../Assets';
-
-// const OTPScreen = ({ navigation, route }) => {
-//   const { mobile } = route.params || {}; // Get mobile from Login screen
-
-//   const [otp, setOtp] = useState(['', '', '', '']);
-//   const [timeLeft, setTimeLeft] = useState(30); // 30 seconds
-//   const [isResendEnabled, setIsResendEnabled] = useState(false);
-//   const inputs = useRef([]);
-
-//   // Timer effect
-//   useEffect(() => {
-//     if (timeLeft === 0) {
-//       setIsResendEnabled(true);
-//       return;
-//     }
-
-//     const timerId = setInterval(() => {
-//       setTimeLeft(prev => prev - 1);
-//     }, 1000);
-
-//     return () => clearInterval(timerId);
-//   }, [timeLeft]);
-
-//   // Focus next input on key press
-//   const handleChange = (text, index) => {
-//     const newOtp = [...otp];
-//     newOtp[index] = text;    
-//        if (text.length === 1 && index < 3) {
-//       inputs.current[index + 1]?.focus();
-//     }
-//   };
-
-//   // Handle resend OTP
-//   const handleResend = () => {
-//     setTimeLeft(30);
-//     setIsResendEnabled(false);
-//     // In real app: call API to resend OTP
-//     Alert.alert('OTP Resent', `New OTP sent to +91 ${mobile}`);
-//   };
-
-//   // Validate and proceed
-//   const handleSubmit = () => {
-//     const otpString = otp.join('');
-//     if (otpString.length !== 4) {
-//       Alert.alert('Invalid OTP', 'Please enter all 4 digits.');
-//       return;
-//     }
-
-//     // Simulate successful login
-//     Alert.alert('Login Successful!', 'Welcome to Daksh!');
-//     navigation.replace('Dashboard'); // Replace with your actual home screen
-//   };
-
-//   const formatTime = (seconds) => {
-//     const mins = Math.floor(seconds / 60);
-//     const secs = seconds % 60;
-//     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       {/* Top Branch Image */}
-//       <Image
-//         source={background_enter_otp} // Update path as needed
-//         style={styles.branch}
-
-//       />
-
-//       {/* Main Content */}
-//       <View style={styles.content}>
-//         <Text style={styles.title}>ओ.टी.पी. डाले</Text>
-//         <Text style={styles.subtitle}>
-//           आपके मोबाइल नंबर पर प्राप्त 4 अंको का ओ.टी.पी. डाले 
-//           मोबाइल नंबर {mobile}
-//         </Text>
-//         {/* <Text style={styles.mobileText}></Text> */}
-
-//         {/* OTP Input Boxes */}
-//         <View style={styles.otpContainer}>
-//           {otp.map((digit, index) => (
-//             <TextInput
-//               key={index}
-//               ref={(ref) => (inputs.current[index] = ref)}
-//               style={styles.otpBox}
-//               value={digit}
-//               onChangeText={(text) => handleChange(text, index)}
-//               keyboardType="numeric"
-//               maxLength={1}
-//               textAlign="center"
-//               autoFocus={index === 0}
-//             />
-//           ))}
-//         </View>
-
-//         {/* Timer */}
-//         <Text style={styles.timerText}>
-//           एंटर कोड इन: {formatTime(timeLeft)}
-//         </Text>
-
-//         {/* Resend Button */}
-//         <TouchableOpacity
-//           style={[styles.resendButton, !isResendEnabled && styles.disabledButton]}
-//           disabled={!isResendEnabled}
-//           onPress={handleResend}
-//         >
-//           <Text style={[styles.resendText, !isResendEnabled && styles.disabledText]}>
-//             फिर से भेजे
-//           </Text>
-//         </TouchableOpacity>
-//       </View>
-
-//       {/* Bottom Hills */}
-//       {/* <Image
-//         source={background_enter_otp} // Update path as needed
-//         style={styles.hills}
-//         resizeMode="stretch"
-//       /> */}
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: 'red',
-//     width:"100%"
-//   },
-//   branch: {
-//     position: 'absolute',
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     height: "100%",
-//     width: "100%",
-//     resizeMode:"cover"
-
-//     // zIndex: 1,
-//   },
-//   content: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     paddingHorizontal: 30,
-//     marginTop: 50,
-//     marginBottom: 100,
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: 'bold',
-//     marginBottom: 10,
-//     textAlign: 'center',
-//   },
-//   subtitle: {
-//     fontSize: 16,
-//     color: '#666',
-//     marginBottom: 20,
-//     textAlign: 'center',
-//   },
-//   mobileText: {
-//     fontSize: 18,
-//     fontWeight: '500',
-//     marginBottom: 30,
-//     textAlign: 'center',
-//   },
-//   otpContainer: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     width: '100%',
-//     marginBottom: 30,
-//   },
-//   otpBox: {
-//     width: 60,
-//     height: 60,
-//     // borderWidth: 1,
-//     borderColor: '#ddd',
-//     borderRadius: 10,
-//     fontSize: 24,
-//     textAlign: 'center',
-//     backgroundColor: '#f0f9e8',
-//     // paddingVertical:10,
-//     marginHorizontal:6
-//   },
-//   timerText: {
-//     fontSize: 16,
-//     color: '#888',
-//     marginBottom: 20,
-//   },
-//   resendButton: {
-//     paddingVertical: 10,
-//     paddingHorizontal: 20,
-//     borderRadius: 20,
-//     backgroundColor: '#FF6B6B',
-//   },
-//   disabledButton: {
-//     backgroundColor: '#cccccc',
-//   },
-//   resendText: {
-//     color: 'white',
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   disabledText: {
-//     color: '#666',
-//   },
-//   hills: {
-//     position: 'absolute',
-//     bottom: 0,
-//     left: 0,
-//     right: 0,
-//     height: 120,
-//     zIndex: 1,
-//   },
-// });
-
-// export default OTPScreen;
-
-
-// src/screens/OTPScreen.js
 import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
@@ -238,11 +8,19 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import { background_enter_otp } from '../Assets/index.js';
-import { showSuccessToast } from '../utils/ToastUtil.js';
+// Assuming these are local assets and utility functions
+// import { background_enter_otp } from '../Assets/index.js';
+import { showInfoToast, showSuccessToast } from '../utils/ToastUtil.js';
+import { background_enter_otp } from '../Assets';
+
+// Mock functions for demonstration since original files are not provided
+// const showInfoToast = (message) => Alert.alert('Info', message);
+// const showSuccessToast = (message) => Alert.alert('Success', message);
+// const background_enter_otp = { uri: 'https://placehold.co/400x800/a2d9ce/4a5568?text=Background' };
+
 
 const OTPScreen = ({ navigation, route }) => {
-  const { mobile, user, token } = route.params || {}; // Get mobile from Login screen
+  const { mobile, user, token } = route.params || { mobile: '9876543210' }; // Get mobile from Login screen, with fallback for demo
 
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timeLeft, setTimeLeft] = useState(30); // 30 seconds
@@ -303,21 +81,16 @@ const OTPScreen = ({ navigation, route }) => {
   }, [otp]);
 
   const verifyOTP = (otpString) => {
-    // In real app: call API to verify OTP
-    // API.verifyOTP(mobile, otpString).then(response => {
-    //   if (response.success) {
-    //     navigation.replace('Dashboard');
-    //   } else {
-    //     Alert.alert('Invalid OTP', 'Please try again.');
-    //   }
-    // });
-
-    // Simulate success after 1 second
-    setTimeout(() => {
-      // Alert.alert('Success', 'OTP Verified! Redirecting...');
+    console.log("Verifying OTP:", otpString);
+    
+    // CORRECTED LOGIC: You must compare otpString to each value separately.
+    if (otpString === "1234" || otpString === "9990") {
       showSuccessToast('लॉगिन सफल रहा है...');
+      // In a real app, you would navigate. We'll comment it out for this example.
       navigation.replace('Dashboard');
-    });
+    } else {
+      showInfoToast("कृपया सही ओटीपी दर्ज करें");
+    }
   };
 
   // Handle resend OTP
@@ -327,6 +100,7 @@ const OTPScreen = ({ navigation, route }) => {
     setOtp(['', '', '', '']); // Clear OTP fields
     inputs.current[0]?.focus(); // Focus first input
     // Alert.alert('OTP Resent', `New OTP sent to +91 ${mobile}`);
+    showSuccessToast('OTP Resent', `New OTP sent to +91 ${mobile}`)
   };
 
   const formatTime = (seconds) => {
@@ -349,10 +123,8 @@ const OTPScreen = ({ navigation, route }) => {
         <Text style={styles.title}>ओ.टी.पी. डाले</Text>
         <Text style={styles.subtitle}>
           आपके मोबाइल नंबर पर प्राप्त 4 अंको का ओ.टी.पी. डाले
-            <Text >मोबाइल नंबर {mobile}</Text>
-
+            <Text style={{fontWeight: 'bold'}}> मोबाइल नंबर {mobile}</Text>
         </Text>
-        {/* <Text style={styles.mobileText}>मोबाइल नंबर {mobile}</Text> */}
 
         {/* OTP Input Boxes */}
         <View style={styles.otpContainer}>
@@ -405,7 +177,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     resizeMode:"cover",
-      backgroundColor: 'rgba(255,0,0,0.3)',
+    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   content: {
     flex: 1,
@@ -420,17 +192,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: '#333',
   },
   subtitle: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  mobileText: {
-    fontSize: 18,
-    fontWeight: '500',
-    marginBottom: 30,
+    marginBottom: 20,
     textAlign: 'center',
   },
   otpContainer: {
@@ -438,6 +205,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     marginBottom: 30,
+    paddingHorizontal: 10,
   },
   otpBox: {
     width: 60,
@@ -448,8 +216,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
     backgroundColor: '#f0f9e8',
-        marginHorizontal:6
-
+    marginHorizontal: 6,
+    color: '#333',
   },
   timerText: {
     fontSize: 16,
@@ -460,7 +228,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#4CAF50', // A more positive color
   },
   disabledButton: {
     backgroundColor: '#cccccc',

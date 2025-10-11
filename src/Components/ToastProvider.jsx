@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    zIndex: 9999,
+    zIndex: 99999,
   },
   iconWrapper: {
     marginRight: 8,

@@ -15,6 +15,7 @@ import ViewDetailsModal from '../Components/ViewDetailsModal';
 import FilterModal from '../Components/FilterModal';
 import AddSamparkitModal from '../Components/AddSamparkitModal';
 import { DAKSH_API } from '../config';
+import UserProfileCard from '../Components/UserProfileCard.jsx';
 
 // --- Configuration ---
 const API_URL = `${DAKSH_API}/api/Gram/GetSamparkVyaktiDataV1`;
@@ -166,9 +167,10 @@ const SamparkVyaktiTable = ({ navigation }) => {
 
     const handleEdit = (item) => {
         // This would open an Edit modal, which is often the same as an Add modal but pre-filled
-        Alert.alert("Edit Person", `This will open a form to edit ${item.FirstName}.`);
+        // Alert.alert("Edit Person", `This will open a form to edit ${item.FirstName}.`);
         // setSelectedItem(item);
         // setEditModalVisible(true);
+        showInfoToast("edit ")
     };
 
     const handleAdd = () => {
@@ -176,13 +178,13 @@ const SamparkVyaktiTable = ({ navigation }) => {
     };
     // --- NEW: Handler to save the data from the modal ---
     const handleSaveSamparkit = async (formData) => {
-        console.log("Saving new contact:", formData);
+        // console.log("Saving new contact:", formData);
         // 1. Show a loading indicator
         // 2. Make your API call to save the data
         // For example: await api.addSamparkit(formData);
         // 3. On success:
         setAddModalVisible(false); // Close the modal
-        Alert.alert("Success", "New contact has been added.");
+        // Alert.alert("Success", "New contact has been added.");
         fetchData(); // Refresh the list
         // 4. On failure: show an error message
     };
@@ -268,7 +270,10 @@ const SamparkVyaktiTable = ({ navigation }) => {
                     </TouchableOpacity>
                     {/* Connect add button to handler */}
                     <TouchableOpacity onPress={handleAdd}>
-                        <MaterialIcons name="add-circle" size={30} color="white" style={{ marginHorizontal: 8 }} />
+                        <View style={{justifyContent:'center', textAlign:'center'}}>
+                            <MaterialIcons name="add-circle" size={30} color="white" style={{ marginHorizontal: 8 }} />
+                        <Text style={{color:"white", width:50, textAlign:'center', fontSize:8 , fontWeight:800}} >सम्पर्कित व्यक्ति जोड़े</Text>
+                        </View>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -292,6 +297,10 @@ const SamparkVyaktiTable = ({ navigation }) => {
                 onClose={() => setViewModalVisible(false)}
                 item={selectedItem}
             />
+            {/* <UserProfileCard user={existingUserData}
+            
+            /> */}
+
             <AddSamparkitModal
                 visible={isAddModalVisible}
                 onClose={() => setAddModalVisible(false)}
@@ -334,6 +343,7 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         paddingBottom: 4,
+        fontWeight:800
     },
     card: {
         flex: 1,

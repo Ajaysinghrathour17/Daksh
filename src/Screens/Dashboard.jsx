@@ -171,7 +171,9 @@ const styles = StyleSheet.create({
     imageContainer: {
         marginHorizontal: 0,
         marginVertical: 0,
-        borderRadius: 20,
+        // borderRadius: 20,
+        borderTopRightRadius:20,
+        borderTopLeftRadius:20,
         overflow: 'hidden',
         backgroundColor: 'white',
     },
